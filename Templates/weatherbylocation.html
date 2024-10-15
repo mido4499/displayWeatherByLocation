@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!--Linking external font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
+</head>
+<body>
+    <video autoplay muted loop id="video_background">
+        <source src="{{url_for('static', filename='videobg.mp4')}}" type="video/mp4">
+        Your browser doesn't support the video tag.
+    </video>
+    <div class="weather_container">
+        {% if weather_info.error %}
+            <h2>{{ weather_info.error }}</h2>
+        {% else %}
+            <h2>Weather in {{ weather_info.city }}</h2>
+            <p>Temperature: {{ weather_info.temperature }}</p>
+            <p>Description: {{ weather_info.description }}</p>
+            <p>Humidity: {{ weather_info.humidity }}°C</p>
+            <p>Wind Speed: {{ weather_info.wind_speed }} km/h</p>
+        {% endif %}
+    </div>
+</body>
+</html>

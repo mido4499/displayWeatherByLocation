@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <script>
+        function getLocation(){
+            document.getElementById("loading-spinner").style.display = 'inline-block';
+            document.getElementById("get-weather").style.display = 'none';
+            if (navigator.geolocation){
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            }else{
+                alert("Geolocation is not supported by this browser.");
+            }
+            
+        }
+
+        function showPosition(position){
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            window.location.href = `/weatherbylocation?lat=${lat}&lon=${lon}`;
+            hideLoading();
+        } 
+
+        function showError(error){
+            switch(error.code){
+                case error.PERMISSION_DENIED:
+                    alert("Permission to use location was denied.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("There was an issue retrieving the location.");
+                    break;
+                case error.TIMEOUT:
+                    alert("The request to get your location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("Something went wrong.");
+                    break;
+            }
+        }
+
+        function hideLoading(){
+            document.getElementById("loading-spinner").style.display = 'none';
+            document.getElementById("get-weather").style.display = 'inline-block';
+        }
+    </script>
+    <video autoplay muted loop id="video_background">
+        <source src="{{url_for('static', filename='videobg.mp4')}}" type="video/mp4">
+        Your browser doesn't support the video tag.
+    </video>
+    <button onclick="getLocation()" id="get-weather"><h1>Get weather by location</h1></button>
+    <div id="loading-spinner" style="display:none;"></div>
+</body>
+</html>
